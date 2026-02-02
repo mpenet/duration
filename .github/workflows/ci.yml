@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Clojure CLI
+        run: |
+          curl -O https://download.clojure.org/install/linux-install-1.10.3.855.sh
+          chmod +x linux-install-1.10.3.855.sh
+          sudo ./linux-install-1.10.3.855.sh
+
+      - name: Run tests
+        run: clojure -X:test
